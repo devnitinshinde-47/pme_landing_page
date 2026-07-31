@@ -1,65 +1,159 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Navbar from '@/components/Navbar';
+import HeroSection from '@/components/HeroSection';
+import AppNoticeBanner from '@/components/AppNoticeBanner';
+import CoursesSection from '@/components/CoursesSection';
+import FeaturesSection from '@/components/FeaturesSection';
+import Footer from '@/components/Footer';
+import AuthModal from '@/components/AuthModal';
+import RequestAccessModal from '@/components/RequestAccessModal';
+import { Course, User, getMyEnrolledCourses, getMyRequestedCourseIds } from '@/lib/api';
 
 export default function Home() {
+  const [user, setUser] = useState<User | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
+  const [selectedCourseForAccess, setSelectedCourseForAccess] = useState<Course | null>(null);
+  const [pendingCourseForAccess, setPendingCourseForAccess] = useState<Course | null>(null);
+  const [enrolledCourseIds, setEnrolledCourseIds] = useState<Set<string>>(new Set());
+  const [requestedCourseIds, setRequestedCourseIds] = useState<Set<string>>(new Set());
+
+  // Restore user session from localStorage if available
+  useEffect(() => {
+    try {
+      const savedUser = localStorage.getItem('pme_user');
+      const savedToken = localStorage.getItem('pme_token');
+      if (savedUser && savedToken) {
+        const parsedUser = JSON.parse(savedUser);
+        setUser(parsedUser);
+        setAccessToken(savedToken);
+        loadUserEnrollmentData(savedToken);
+      }
+    } catch (e) {
+      console.warn('Could not restore auth state from storage:', e);
+    }
+  }, []);
+
+  const loadUserEnrollmentData = async (token: string) => {
+    try {
+      const [enrolledCourses, requestedIds] = await Promise.all([
+        getMyEnrolledCourses(token),
+        getMyRequestedCourseIds(token),
+      ]);
+      setEnrolledCourseIds(new Set(enrolledCourses.map((c) => c.id)));
+      setRequestedCourseIds(new Set(requestedIds));
+    } catch (err) {
+      console.warn('Failed to load user enrollment status:', err);
+    }
+  };
+
+  const handleAuthSuccess = (loggedUser: User, token: string) => {
+    setUser(loggedUser);
+    setAccessToken(token);
+    try {
+      localStorage.setItem('pme_user', JSON.stringify(loggedUser));
+      localStorage.setItem('pme_token', token);
+    } catch (e) {
+      console.warn('Storage save failed:', e);
+    }
+
+    loadUserEnrollmentData(token);
+
+    // If student was attempting to request course access before login, open access request modal
+    if (pendingCourseForAccess) {
+      setSelectedCourseForAccess(pendingCourseForAccess);
+      setPendingCourseForAccess(null);
+    }
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setAccessToken(null);
+    setSelectedCourseForAccess(null);
+    setPendingCourseForAccess(null);
+    setEnrolledCourseIds(new Set());
+    setRequestedCourseIds(new Set());
+    try {
+      localStorage.removeItem('pme_user');
+      localStorage.removeItem('pme_token');
+    } catch (e) {
+      console.warn('Storage clear failed:', e);
+    }
+  };
+
+  const handleScrollTo = (sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleCourseAccessRequest = (course: Course) => {
+    if (!user) {
+      // Require OTP Login & verification first
+      setPendingCourseForAccess(course);
+      setIsAuthOpen(true);
+    } else {
+      setSelectedCourseForAccess(course);
+    }
+  };
+
+  const handleSuccessRequest = (courseId: string) => {
+    setRequestedCourseIds((prev) => new Set([...Array.from(prev), courseId]));
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen flex flex-col bg-white">
+      {/* 1. Sticky Glass Navbar */}
+      <Navbar
+        user={user}
+        onOpenAuth={() => setIsAuthOpen(true)}
+        onLogout={handleLogout}
+        onScrollTo={handleScrollTo}
+      />
+
+      <main className="flex-grow">
+        {/* 2. Hero Section */}
+        <HeroSection
+          onExploreCourses={() => handleScrollTo('courses')}
+          onDownloadApp={() => handleScrollTo('app-notice')}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+        {/* 3. App Download Alert Banner */}
+        <AppNoticeBanner />
+
+        {/* 4. Courses Catalog Section */}
+        <CoursesSection
+          onRequestAccess={handleCourseAccessRequest}
+          enrolledCourseIds={enrolledCourseIds}
+          requestedCourseIds={requestedCourseIds}
+        />
+
+        {/* 5. Features Section */}
+        <FeaturesSection />
       </main>
+
+      {/* 6. Footer */}
+      <Footer onScrollTo={handleScrollTo} />
+
+      {/* 7. OTP Authentication Modal */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onSuccess={handleAuthSuccess}
+      />
+
+      {/* 8. Course Request Access Modal */}
+      <RequestAccessModal
+        course={selectedCourseForAccess}
+        user={user}
+        token={accessToken}
+        onClose={() => setSelectedCourseForAccess(null)}
+        onRequireLogin={() => setIsAuthOpen(true)}
+        onSuccessRequest={handleSuccessRequest}
+      />
     </div>
   );
 }
