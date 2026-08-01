@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://200.141.9.205/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.pawanmateeducation.tech/api';
 
 export interface Course {
   id: string;
