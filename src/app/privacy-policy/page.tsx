@@ -31,7 +31,7 @@ export default function PrivacyPolicyPage() {
       title="Privacy Policy"
       subtitle="Your privacy matters to us. This policy explains how Pawan Mate Education collects, uses, and protects your personal information."
       icon="privacy"
-      lastUpdated="February 8, 2026"
+      lastUpdated="1 August 2026"
     >
       {/* 1. Introduction */}
       <Section title="1. Introduction">

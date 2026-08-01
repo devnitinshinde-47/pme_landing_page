@@ -31,7 +31,7 @@ export default function TermsConditionsPage() {
       title="Terms & Conditions"
       subtitle="Please read these terms carefully before using our website, mobile application, or any of our educational services."
       icon="terms"
-      lastUpdated="February 8, 2026"
+      lastUpdated="1 August 2026"
     >
       {/* 1. Acceptance of Terms */}
       <Section title="1. Acceptance of Terms">
