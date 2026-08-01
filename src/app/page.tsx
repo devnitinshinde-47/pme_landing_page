@@ -118,7 +118,6 @@ export default function Home() {
         {/* 2. Hero Section */}
         <HeroSection
           onExploreCourses={() => handleScrollTo('courses')}
-          onDownloadApp={() => handleScrollTo('app-notice')}
         />
 
         {/* 3. App Download Alert Banner */}

@@ -33,6 +33,16 @@ export default function Navbar({ user, onOpenAuth, onLogout, onScrollTo }: Navba
     onScrollTo(sectionId);
   };
 
+  const handleDownloadApk = () => {
+    setMobileMenuOpen(false);
+    const link = document.createElement('a');
+    link.href = '/pawanmateeducation.apk';
+    link.download = 'pawanmateeducation.apk';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${
       scrolled ? 'glass-nav shadow-xs py-1.5' : 'bg-white/95 border-b border-slate-200 py-2.5'
@@ -96,7 +106,7 @@ export default function Navbar({ user, onOpenAuth, onLogout, onScrollTo }: Navba
           {/* Desktop Right CTAs */}
           <div className="hidden sm:flex items-center gap-3">
             <button
-              onClick={() => handleNavClick('app-notice')}
+              onClick={handleDownloadApk}
               className="btn-gold text-xs py-2 px-4 shadow-sm"
             >
               <Download className="w-4 h-4" />
@@ -202,7 +212,7 @@ export default function Navbar({ user, onOpenAuth, onLogout, onScrollTo }: Navba
 
           <div className="pt-3 border-t border-slate-100 flex flex-col gap-2.5">
             <button
-              onClick={() => handleNavClick('app-notice')}
+              onClick={handleDownloadApk}
               className="btn-gold text-xs py-3 px-4 justify-center w-full shadow-sm"
             >
               <Download className="w-4 h-4" />

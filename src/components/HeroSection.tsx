@@ -6,10 +6,18 @@ import { ArrowRight, Download, BookOpen, CheckCircle2, ShieldCheck } from 'lucid
 
 interface HeroSectionProps {
   onExploreCourses: () => void;
-  onDownloadApp: () => void;
 }
 
-export default function HeroSection({ onExploreCourses, onDownloadApp }: HeroSectionProps) {
+export default function HeroSection({ onExploreCourses }: HeroSectionProps) {
+  const handleDownloadApk = () => {
+    const link = document.createElement('a');
+    link.href = '/pawanmateeducation.apk';
+    link.download = 'pawanmateeducation.apk';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <section id="hero" className="section-wrapper bg-gradient-to-b from-slate-100 via-slate-50 to-white py-12 sm:py-20 border-b border-slate-200/80 overflow-hidden relative">
       
@@ -62,7 +70,7 @@ export default function HeroSection({ onExploreCourses, onDownloadApp }: HeroSec
               </button>
 
               <button 
-                onClick={onDownloadApp} 
+                onClick={handleDownloadApk} 
                 className="btn-secondary text-sm py-3.5 px-7 justify-center"
               >
                 <Download className="w-4 h-4 text-[#0f2c59]" />

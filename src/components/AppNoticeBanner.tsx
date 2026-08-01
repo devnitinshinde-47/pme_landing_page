@@ -5,7 +5,12 @@ import { Download, Smartphone, Play, Shield, Video, DownloadCloud, Sparkles } fr
 
 export default function AppNoticeBanner() {
   const handleDownloadApk = () => {
-    alert("Starting download for Pawan Mate Education Android APK...");
+    const link = document.createElement('a');
+    link.href = '/pawanmateeducation.apk';
+    link.download = 'pawanmateeducation.apk';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (

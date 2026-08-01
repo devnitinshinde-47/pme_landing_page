@@ -10,6 +10,16 @@ interface FooterProps {
 }
 
 export default function Footer({ onScrollTo }: FooterProps) {
+  const handleDownloadApk = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const link = document.createElement('a');
+    link.href = '/pawanmateeducation.apk';
+    link.download = 'pawanmateeducation.apk';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <footer className="section-wrapper bg-[#0b192c] text-slate-300 py-12 border-t border-slate-800">
       <div className="section-container">
@@ -49,7 +59,7 @@ export default function Footer({ onScrollTo }: FooterProps) {
 
           {/* Action CTA Button */}
           <button
-            onClick={() => onScrollTo('app-notice')}
+            onClick={handleDownloadApk}
             className="btn-gold text-xs py-2.5 px-5 font-black shadow-md shrink-0"
           >
             <Download className="w-4 h-4" />
