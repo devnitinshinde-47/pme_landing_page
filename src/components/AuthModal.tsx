@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { sendOtp, verifyOtp, User } from '@/lib/api';
 import { X, KeyRound, ArrowRight, ShieldCheck, CheckCircle2, AlertCircle, Phone } from 'lucide-react';
+
+const OTP_RESEND_COOLDOWN_SECONDS = 90;
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -19,6 +21,39 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [infoMsg, setInfoMsg] = useState('');
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
+  const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Countdown timer for OTP resend cooldown
+  useEffect(() => {
+    if (cooldownSeconds > 0) {
+      if (cooldownRef.current) clearInterval(cooldownRef.current);
+      cooldownRef.current = setInterval(() => {
+        setCooldownSeconds((prev) => {
+          if (prev <= 1) {
+            if (cooldownRef.current) clearInterval(cooldownRef.current);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => {
+      if (cooldownRef.current) clearInterval(cooldownRef.current);
+    };
+  }, [cooldownSeconds > 0]);
+
+  // Reset cooldown when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setCooldownSeconds(0);
+      if (cooldownRef.current) clearInterval(cooldownRef.current);
+    }
+  }, [isOpen]);
+
+  const startCooldown = () => {
+    setCooldownSeconds(OTP_RESEND_COOLDOWN_SECONDS);
+  };
 
   if (!isOpen) return null;
 
@@ -39,6 +74,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
         setStep('OTP');
         setErrorMsg('');
         setInfoMsg(res.message || `OTP sent to +91 ${mobileNo}`);
+        startCooldown();
       } else {
         setErrorMsg(res.message || 'Could not send OTP. Please check your number.');
       }
@@ -85,6 +121,8 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
     setErrorMsg('');
     setInfoMsg('');
     setOtp('');
+    setCooldownSeconds(0);
+    if (cooldownRef.current) clearInterval(cooldownRef.current);
   };
 
   return (
@@ -215,9 +253,14 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
               <button
                 type="button"
                 onClick={handleSendOtp}
-                className="text-slate-500 hover:text-slate-800 font-semibold"
+                disabled={cooldownSeconds > 0 || loading}
+                className={`font-semibold transition-colors ${
+                  cooldownSeconds > 0
+                    ? 'text-slate-400 cursor-not-allowed'
+                    : 'text-slate-500 hover:text-slate-800'
+                }`}
               >
-                Resend OTP
+                {cooldownSeconds > 0 ? `Resend OTP (${cooldownSeconds}s)` : 'Resend OTP'}
               </button>
             </div>
           </form>

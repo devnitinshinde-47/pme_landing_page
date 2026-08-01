@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Download, Heart } from 'lucide-react';
 
 interface FooterProps {
@@ -60,10 +61,20 @@ export default function Footer({ onScrollTo }: FooterProps) {
         {/* Bottom Copyright Row */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 w-full">
           <p>© {new Date().getFullYear()} Pawan Mate Education. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            <span>Coaching Polytechnic & Degree Engineers with</span>
-            <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500 inline" />
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
+            <div className="flex items-center gap-5">
+              <Link href="/privacy-policy" className="hover:text-white transition-colors font-semibold">
+                Privacy Policy
+              </Link>
+              <Link href="/terms-conditions" className="hover:text-white transition-colors font-semibold">
+                Terms & Conditions
+              </Link>
+            </div>
+            <p className="flex items-center gap-1">
+              <span>Coaching Polytechnic & Degree Engineers with</span>
+              <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500 inline" />
+            </p>
+          </div>
         </div>
 
       </div>
