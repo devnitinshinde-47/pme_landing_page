@@ -82,14 +82,15 @@ export default function ResultBanner({ isOpen, onClose }: ResultBannerProps) {
             <X className="w-5 h-5" />
           </button>
 
-          {/* Result Banner Image */}
-          <div className="relative w-full aspect-[16/10] sm:aspect-[21/10] bg-slate-100">
+          {/* Result Banner Image - full image visible, no cropping */}
+          <div className="relative w-full max-h-[85vh] sm:max-h-[80vh] bg-slate-100 flex items-center justify-center overflow-y-auto">
             <Image
               src="/result_banner.jpg"
               alt="Pawan Mate Education Results – Student Toppers"
-              fill
+              width={1024}
+              height={576}
               sizes="(max-width: 1024px) 100vw, 1024px"
-              className="object-cover"
+              className="w-full h-auto object-contain"
               priority
             />
           </div>
