@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
+import ResultBanner from '@/components/ResultBanner';
 import AppNoticeBanner from '@/components/AppNoticeBanner';
 import CoursesSection from '@/components/CoursesSection';
 import FeaturesSection from '@/components/FeaturesSection';
@@ -15,6 +16,7 @@ export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
+  const [isResultOpen, setIsResultOpen] = useState<boolean>(false);
   const [selectedCourseForAccess, setSelectedCourseForAccess] = useState<Course | null>(null);
   const [pendingCourseForAccess, setPendingCourseForAccess] = useState<Course | null>(null);
   const [enrolledCourseIds, setEnrolledCourseIds] = useState<Set<string>>(new Set());
@@ -34,6 +36,14 @@ export default function Home() {
     } catch (e) {
       console.warn('Could not restore auth state from storage:', e);
     }
+  }, []);
+
+  // Show result banner popup automatically when website opens
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsResultOpen(true);
+    }, 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   const loadUserEnrollmentData = async (token: string) => {
@@ -137,14 +147,20 @@ export default function Home() {
       {/* 6. Footer */}
       <Footer onScrollTo={handleScrollTo} />
 
-      {/* 7. OTP Authentication Modal */}
+      {/* 7. Results Banner Popup Modal */}
+      <ResultBanner
+        isOpen={isResultOpen}
+        onClose={() => setIsResultOpen(false)}
+      />
+
+      {/* 8. OTP Authentication Modal */}
       <AuthModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
         onSuccess={handleAuthSuccess}
       />
 
-      {/* 8. Course Request Access Modal */}
+      {/* 9. Course Request Access Modal */}
       <RequestAccessModal
         course={selectedCourseForAccess}
         user={user}
