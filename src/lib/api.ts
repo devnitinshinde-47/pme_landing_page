@@ -7,6 +7,10 @@ export interface Course {
   type: string;
   mode: string;
   price: number;
+  isCombo?: boolean;
+  originalPrice?: number;
+  includedCourseIds?: string[];
+  includedCourses?: Course[];
   accessDurationMonths?: number;
   branches?: string[];
   year?: string;
@@ -83,6 +87,29 @@ export async function getCourses(params?: {
       content: getSampleCourses(),
       totalElements: getSampleCourses().length,
     };
+  }
+}
+
+// 1b. Fetch Public Combo Courses
+export async function getComboCourses(): Promise<Course[]> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/courses/combos`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch combo courses: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? data : (data.content || []);
+  } catch (error) {
+    console.warn('API Error fetching combo courses:', error);
+    return [];
   }
 }
 

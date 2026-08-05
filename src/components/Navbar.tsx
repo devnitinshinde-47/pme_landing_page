@@ -2,17 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { User } from '@/lib/api';
-import { LogIn, LogOut, Download, Menu, X, BookOpen, Smartphone, ShieldCheck, Home as HomeIcon, ChevronRight } from 'lucide-react';
+import { Download, Menu, X, BookOpen, Smartphone, ShieldCheck, Home as HomeIcon, ChevronRight } from 'lucide-react';
 
 interface NavbarProps {
-  user: User | null;
-  onOpenAuth: () => void;
-  onLogout: () => void;
   onScrollTo: (sectionId: string) => void;
 }
 
-export default function Navbar({ user, onOpenAuth, onLogout, onScrollTo }: NavbarProps) {
+export default function Navbar({ onScrollTo }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -107,47 +103,22 @@ export default function Navbar({ user, onOpenAuth, onLogout, onScrollTo }: Navba
           <div className="hidden sm:flex items-center gap-3">
             <button
               onClick={handleDownloadApk}
-              className="btn-gold text-xs py-2 px-4 shadow-sm"
+              className="btn-gold text-xs sm:text-sm py-2.5 px-5 shadow-sm"
             >
               <Download className="w-4 h-4" />
-              Download APK
+              Download Android App
             </button>
-
-            {user ? (
-              <div className="flex items-center gap-2 bg-slate-100/90 px-3.5 py-1.5 rounded-xl border border-slate-200">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-bold text-[#0b192c] truncate max-w-[130px]">
-                  {user.name || user.mobileNo}
-                </span>
-                <button
-                  onClick={onLogout}
-                  title="Logout"
-                  className="text-slate-400 hover:text-red-600 transition-colors p-1 ml-1"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={onOpenAuth}
-                className="btn-primary text-xs sm:text-sm py-2 px-4 shadow-sm"
-              >
-                <LogIn className="w-4 h-4" />
-                Student Login
-              </button>
-            )}
           </div>
 
           {/* Mobile Hamburger Button */}
           <div className="flex lg:hidden items-center gap-2">
-            {!user && (
-              <button
-                onClick={onOpenAuth}
-                className="btn-primary text-xs py-1.5 px-3 sm:hidden"
-              >
-                Login
-              </button>
-            )}
+            <button
+              onClick={handleDownloadApk}
+              className="btn-gold text-xs py-1.5 px-3 sm:hidden"
+            >
+              <Download className="w-3.5 h-3.5" />
+              App APK
+            </button>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -216,39 +187,8 @@ export default function Navbar({ user, onOpenAuth, onLogout, onScrollTo }: Navba
               className="btn-gold text-xs py-3 px-4 justify-center w-full shadow-sm"
             >
               <Download className="w-4 h-4" />
-              Download Android APK
+              Download Official Android APK
             </button>
-
-            {user ? (
-              <div className="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                  <span className="font-bold text-[#0b192c]">
-                    Logged in: {user.name || user.mobileNo}
-                  </span>
-                </div>
-                <button
-                  onClick={() => {
-                    onLogout();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="text-red-600 font-bold hover:underline flex items-center gap-1"
-                >
-                  <LogOut className="w-3.5 h-3.5" /> Logout
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenAuth();
-                }}
-                className="btn-primary text-xs py-3 px-4 justify-center w-full"
-              >
-                <LogIn className="w-4 h-4" />
-                Student Login / Register
-              </button>
-            )}
           </div>
         </div>
       )}

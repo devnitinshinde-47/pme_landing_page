@@ -45,15 +45,30 @@ export default function TermsConditionsPage() {
         </p>
       </Section>
 
-      {/* 2. Description of Services */}
-      <Section title="2. Description of Services">
-        <p>Pawan Mate Education provides the following educational services:</p>
-        <ul className="list-disc pl-5 space-y-1">
-          <li>Pre-recorded video lectures for Polytechnic, Diploma, and Degree Engineering courses</li>
-          <li>Live online classes conducted through third-party platforms such as Zoom</li>
-          <li>Study materials, handwritten notes, DPPs (Daily Practice Problems), and formula sheets</li>
-          <li>Test series and practice papers</li>
-          <li>Doubt-solving support and academic guidance</li>
+      {/* 2. Description of Educational Coaching & Services */}
+      <Section title="2. Description of Educational Coaching & Services">
+        <p className="font-semibold text-slate-800">
+          Pawan Mate Education is Maharashtra's Premier Coaching Institute, specializing in Polytechnic Diploma & Degree Engineering Education.
+        </p>
+        <p>
+          We provide comprehensive, result-oriented academic coaching tailored specifically for MSBTE, SPPU, DBATU, and leading autonomous engineering institutes across Maharashtra. Our institute empowers engineering aspirants through:
+        </p>
+        <ul className="list-disc pl-5 space-y-1.5 font-medium">
+          <li>
+            <strong>Expert-Led Live Interactive Coaching:</strong> Real-time conceptually-grounded live lectures with direct doubt resolution, interactive Q&A, and in-depth problem solving.
+          </li>
+          <li>
+            <strong>Complete Diploma & Degree Curriculum:</strong> Exhaustive syllabus coverage covering all semester subjects for Polytechnic Diploma and Degree Engineering programs.
+          </li>
+          <li>
+            <strong>Curated Academic Resources:</strong> Premium handwritten notes, concise formula sheets, Daily Practice Problems (DPPs), and model answer guides tailored for exam excellence.
+          </li>
+          <li>
+            <strong>Exam Evaluation & Test Series:</strong> Chapter-wise mock tests, unit prelims, and university pattern question paper solving to maximize scoring capability.
+          </li>
+          <li>
+            <strong>Personalized Academic Mentorship:</strong> Dedicated student support, exam preparation strategies, and continuous academic guidance.
+          </li>
         </ul>
       </Section>
 
