@@ -21,28 +21,28 @@ export default function Footer({ onScrollTo }: FooterProps) {
   };
 
   return (
-    <footer className="section-wrapper bg-[#0b192c] text-slate-300 py-12 border-t border-slate-800">
+    <footer className="section-wrapper bg-zinc-950 dark:bg-black text-zinc-300 py-10 border-t border-zinc-800">
       <div className="section-container">
         
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-slate-800/80 w-full">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-zinc-800/80 w-full">
           
           {/* Logo & Brand Info */}
-          <div className="flex items-center gap-3.5 cursor-pointer shrink-0" onClick={() => onScrollTo('hero')}>
-            <div className="w-13 h-13 sm:w-15 sm:h-15 bg-white rounded-2xl flex items-center justify-center overflow-hidden p-1 shadow-md">
-              <Image src="/logo.png" alt="Logo" width={56} height={56} className="object-contain object-center scale-130" />
+          <div className="flex items-center gap-3 cursor-pointer shrink-0" onClick={() => onScrollTo('hero')}>
+            <div className="w-12 h-12 bg-white dark:bg-zinc-900 rounded-xl flex items-center justify-center overflow-hidden border border-zinc-700">
+              <Image src="/logo.png" alt="Logo" width={48} height={48} className="object-contain object-center scale-[1.7]" />
             </div>
             <div>
-              <span className="text-lg font-black text-white tracking-tight block leading-tight">
+              <span className="text-base font-bold text-white tracking-tight block leading-tight">
                 PAWAN MATE
               </span>
-              <span className="text-[10px] font-extrabold text-orange-400 tracking-wider uppercase block">
+              <span className="text-[10px] font-semibold text-amber-400 tracking-wider uppercase block">
                 EDUCATION
               </span>
             </div>
           </div>
 
           {/* Quick Navigation Links */}
-          <div className="flex flex-wrap justify-center gap-6 text-xs sm:text-sm font-bold text-slate-300">
+          <div className="flex flex-wrap justify-center gap-6 text-xs sm:text-sm font-medium text-slate-300">
             <button onClick={() => onScrollTo('hero')} className="hover:text-white transition-colors">
               Home
             </button>
@@ -60,7 +60,7 @@ export default function Footer({ onScrollTo }: FooterProps) {
           {/* Action CTA Button */}
           <button
             onClick={handleDownloadApk}
-            className="btn-gold text-xs py-2.5 px-5 font-black shadow-md shrink-0"
+            className="btn-gold text-xs py-2 px-4 font-bold shrink-0 shadow-2xs"
           >
             <Download className="w-4 h-4" />
             <span>Download APK</span>
@@ -69,20 +69,19 @@ export default function Footer({ onScrollTo }: FooterProps) {
         </div>
 
         {/* Bottom Copyright Row */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 w-full">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 w-full">
           <p>© {new Date().getFullYear()} Pawan Mate Education. All rights reserved.</p>
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
             <div className="flex items-center gap-5">
-              <Link href="/privacy-policy" className="hover:text-white transition-colors font-semibold">
+              <Link href="/privacy-policy" className="hover:text-white transition-colors font-medium">
                 Privacy Policy
               </Link>
-              <Link href="/terms-conditions" className="hover:text-white transition-colors font-semibold">
+              <Link href="/terms-conditions" className="hover:text-white transition-colors font-medium">
                 Terms & Conditions
               </Link>
             </div>
             <p className="flex items-center gap-1">
-              <span>Coaching Polytechnic & Degree Engineers with</span>
-              <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500 inline" />
+              <span>Coaching Polytechnic & Degree Engineers</span>
             </p>
           </div>
         </div>

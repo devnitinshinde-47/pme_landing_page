@@ -6,53 +6,53 @@ import { Video, BookOpen, Smartphone, HelpCircle, Award, CheckCircle, ShieldChec
 export default function FeaturesSection() {
   const features = [
     {
-      icon: <Video className="w-6 h-6 text-blue-600" />,
+      icon: <Video className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />,
       title: 'Interactive Live Classes',
       description: 'Engage in live interactive sessions with Prof. Pawan Mate with real-time doubt resolution and step-by-step guidance.',
     },
     {
-      icon: <BookOpen className="w-6 h-6 text-blue-600" />,
+      icon: <BookOpen className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />,
       title: 'Exam-Oriented Syllabus',
       description: 'Curriculum specifically aligned with MSBTE Polytechnic Diploma & SPPU / Pune University marking schemes.',
     },
     {
-      icon: <Smartphone className="w-6 h-6 text-blue-600" />,
+      icon: <Smartphone className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />,
       title: 'Dedicated Mobile App',
       description: 'Stream HD lectures on mobile, download videos for offline viewing, and study anytime, anywhere.',
     },
     {
-      icon: <HelpCircle className="w-6 h-6 text-blue-600" />,
+      icon: <HelpCircle className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />,
       title: '1-on-1 Numerical Guidance',
       description: 'Step-by-step problem-solving methods for complex engineering mechanics, mathematics, and design subjects.',
     },
     {
-      icon: <Award className="w-6 h-6 text-blue-600" />,
+      icon: <Award className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />,
       title: 'Proven Track Record',
       description: 'Guiding over 10,000+ diploma & degree engineering students to achieve top marks and university distinctions.',
     },
     {
-      icon: <CheckCircle className="w-6 h-6 text-blue-600" />,
+      icon: <CheckCircle className="w-5 h-5 text-zinc-700 dark:text-zinc-300" />,
       title: 'Notes & Formula Cheat-Sheets',
       description: 'Access curated handwritten lecture notes, formula sheets, key question banks, and past exam solutions.',
     },
   ];
 
   return (
-    <section id="features" className="section-wrapper bg-blue-50/40 py-14 sm:py-20 border-b border-slate-200/80">
+    <section id="features" className="section-wrapper bg-white dark:bg-zinc-950 py-14 sm:py-18 border-b border-zinc-200 dark:border-zinc-800">
       <div className="section-container">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-blue-50 text-blue-800 text-xs font-extrabold rounded-full border border-blue-100">
-            <ShieldCheck className="w-4 h-4 text-blue-600" />
+        <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 text-xs font-semibold rounded-full border border-zinc-200 dark:border-zinc-800">
+            <ShieldCheck className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
             <span>Why Pawan Mate Education</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-black text-[#0f2c59] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
             Designed for Student Success
           </h2>
 
-          <p className="text-sm sm:text-base text-slate-600 font-normal">
+          <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 font-normal">
             Everything you need for academic excellence, concept clarity, and top exam scores.
           </p>
         </div>
@@ -62,19 +62,17 @@ export default function FeaturesSection() {
           {features.map((feature, idx) => (
             <div
               key={idx}
-              className="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-2xs hover:shadow-lg hover:border-blue-200 hover:-translate-y-1 transition-all duration-300 space-y-4 group"
+              className="bg-zinc-50/70 dark:bg-zinc-900/60 p-6 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-2xs space-y-3 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200"
             >
-              <div className="w-12 h-12 rounded-xl bg-blue-50/90 border border-blue-100/90 flex items-center justify-center group-hover:bg-[#0f2c59] group-hover:text-white transition-colors">
-                {React.cloneElement(feature.icon, {
-                  className: "w-6 h-6 text-[#0f2c59] group-hover:text-white transition-colors"
-                })}
+              <div className="w-10 h-10 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 flex items-center justify-center shadow-2xs">
+                {feature.icon}
               </div>
 
-              <h3 className="text-lg font-black text-[#0b192c] leading-snug group-hover:text-blue-600 transition-colors">
+              <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 leading-snug">
                 {feature.title}
               </h3>
 
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
                 {feature.description}
               </p>
             </div>
